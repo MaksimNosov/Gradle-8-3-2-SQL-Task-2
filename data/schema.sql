@@ -37,9 +37,3 @@ CREATE TABLE card_transactions
     created           TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO auth_codes (id, user_id, code)
-VALUES ('27049f22-2c25-4524-824a-75695a96d277', '27049f22-2c25-4524-824a-75695a96d27c', '123123');
-
-UPDATE auth_codes SET code = 555555
-WHERE user_id = '27049f22-2c25-4524-824a-75695a96d27c';
-
