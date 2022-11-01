@@ -1,19 +1,11 @@
 package ru.netology.data;
 
-import com.github.javafaker.Faker;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.Value;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 
 public class DataHelper {
-
-    private static Faker faker = new Faker(new Locale("en"));
 
     private DataHelper() {
     }
@@ -29,58 +21,29 @@ public class DataHelper {
         String code;
     }
 
-//    @Data
-//    @NoArgsConstructor
-//    @AllArgsConstructor
-//    public static class AuthCode {
-//        private String id;
-//        private String user_id;
-//        private String code;
-//        private String created;
-//    }
-
     public static AuthInfo getValidAuthInfo() {
         return new AuthInfo("vasya", "qwerty123");
     }
 
-    public static AuthInfo getAuthInfoValidLoginInvalidPassword() {
-        return new AuthInfo("vasya", faker.internet().password());
-    }
-
-    private static String generateRandomLogin() {
-        return faker.name().username();
-    }
-
-    private static String generateRandomPassword() {
-        return faker.internet().password();
-    }
-
-    public static AuthInfo generateRandomUser() {
-        return new AuthInfo(generateRandomLogin(), generateRandomPassword());
-    }
-
-    public static VerificationCode generateRandomVerificationCode() {
-        return new VerificationCode(faker.numerify("######"));
-    }
-
     private static List<String> listCardsNumbersOfFirstUsers() {
         return List.of("5559 0000 0000 0001", "5559 0000 0000 0002");
-//        return cardsNumbers;
     }
 
-//    public static String getCardNumberOfFirstUser(int numberOnPage) {
-//        List<String> cardsNumbers = List.of("5559 0000 0000 0001", "5559 0000 0000 0002");
-//        return cardsNumbers.get((numberOnPage - 1));
-//    }
-
     public static String getCardNumberOfFirstUser(int numberOnPage) {
-//        List<String> cardsNumbers = List.of("5559 0000 0000 0001", "5559 0000 0000 0002");
         return listCardsNumbersOfFirstUsers().get((numberOnPage - 1));
     }
 
+    private static List<String> listCardsNumbersOfAnotherUsers() {
+        return List.of("5559 0000 0000 0008");
+    }
+
+    public static String getCardNumberOfAnotherUser() {
+        return listCardsNumbersOfAnotherUsers().get((0));
+    }
+
     public static Integer getValidAmount(int balance) {
-        var validAmountInKopecks =  new Random().nextInt(balance) + 1;
-        var validAmountInRubles = validAmountInKopecks / 100;
+        var validAmountInKopecks = new Random().nextInt(balance) + 1;
+        int validAmountInRubles = validAmountInKopecks / 100;
         return validAmountInRubles;
     }
 }

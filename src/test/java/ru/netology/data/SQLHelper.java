@@ -4,7 +4,6 @@ import lombok.SneakyThrows;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
-import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -40,14 +39,20 @@ public class SQLHelper {
         }
     }
 
+
     @SneakyThrows
-    public static Integer getBalanceAnythingCardFromDB(String cardNumber) {
+    public static Integer getBalanceAnotherCardFromDB(String cardNumber) {
         var codeSQL = "SELECT SUM(amount_in_kopecks) FROM card_transactions WHERE target = ?;";
         try (var conn = getConn()) {
 
-            var balance = runner.query(conn, codeSQL, new ScalarHandler<Integer>(), cardNumber);
-//            ((BigInteger) result[1]).intValue();
-            return balance + getBalanceCardFromDB(cardNumber);
+            var balance = runner.query(conn, codeSQL, new ScalarHandler<>(), cardNumber);
+            int count;
+            if (balance != null) {
+                count = Integer.parseInt(String.valueOf(balance));
+            } else {
+                count = 0;
+            }
+            return count;
         }
     }
 
@@ -69,8 +74,6 @@ public class SQLHelper {
         }
     }
 
-
-
     @SneakyThrows
     public static void cleanDatabase() {
         var connection = getConn();
@@ -79,5 +82,4 @@ public class SQLHelper {
         runner.execute(connection, "DELETE FROM cards");
         runner.execute(connection, "DELETE FROM users");
     }
-
 }
